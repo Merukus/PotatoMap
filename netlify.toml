@@ -1,3 +1,3 @@
 [build]
-Publish directory: .
-command = ""
+  publish = "."
+  command = ""
