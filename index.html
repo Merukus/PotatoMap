@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mapa Vantrelis</title>
+
+<link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+<div id="routePanel">
+  <h3>Buscar ruta</h3>
+
+  <div class="route-row">
+    <label for="startInput">Origen</label>
+    <input id="startInput" list="roomsList" placeholder="Escribe número o nombre de sala">
+  </div>
+
+  <div class="route-row">
+    <label for="endInput">Destino</label>
+    <input id="endInput" list="roomsList" placeholder="Escribe número o nombre de sala">
+  </div>
+
+  <datalist id="roomsList"></datalist>
+
+  <div class="route-actions">
+    <button id="findRouteBtn">Mostrar ruta</button>
+    <button id="clearRouteBtn">Limpiar ruta</button>
+  </div>
+
+  <div id="routeResult">Selecciona dos lugares para trazar la ruta.</div>
+</div>
+
+<div id="viewport">
+  <div id="map">
+    <svg id="lines"></svg>
+  </div>
+</div>
+
+<div id="infoPanel">
+  <h3>Conexiones</h3>
+  <p class="sub">Haz click en un nodo para fijar sus rutas.</p>
+  <div id="infoContent">No hay nodo seleccionado.</div>
+  <button id="clearSelection">Limpiar selección</button>
+</div>
+
+<div id="modal">
+  <span id="closeBtn">✖</span>
+  <img id="modalImg" src="" alt="">
+</div>
+
+<div id="routeModal">
+  <div id="routeModalContent">
+    <span id="routeModalClose">✖</span>
+    <h2>Salas de la ruta</h2>
+    <div id="routeSequence"></div>
+    <div class="routeGallery" id="routeGallery"></div>
+  </div>
+</div>
+
+<div id="hoverPreview">
+  <div id="hoverPreviewBox">
+    <img id="hoverPreviewImg" src="" alt="">
+    <div id="hoverPreviewCaption"></div>
+  </div>
+</div>
+
+<script src="./js/app.js"></script>
+
+</body>
+</html>
