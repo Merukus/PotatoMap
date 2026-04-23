@@ -61,7 +61,8 @@ const nodes = {
   60:"Común Ravenclaw",
   61:"Baño de Prefectos",
   62:"Aula HDM",
-  63:"Red Flú Escolar"
+  63:"Red Flú Escolar",
+  64:"Aula de Runas Antiguas"
 };
 
 const fluNetwork = {
@@ -79,7 +80,7 @@ const fluHub = 63;
 
 const BASE_URL = "./assets/";
 const roomImages = {};
-for(let i = 1; i <= 63; i++){
+for(let i = 1; i <= 64; i++){
   roomImages[i] = BASE_URL + i + ".png";
 }
 function getImage(id){
@@ -117,7 +118,7 @@ const links = [
   [40,41],[40,42],
   [42,43],
   [43,44],[43,45],[43,52],[43,53],
-  [45,46],[45,51],
+  [45,46],[45,51],[45,64],
   [46,47],[46,49],[46,50],
   [47,48],
   [53,54]
@@ -179,6 +180,7 @@ const pos = {
   49:[1520,55],
   47:[1530,180],
   48:[1660,120],
+  64:[1150,90],
 
   25:[1740,1120],
   26:[1900,1220],
