@@ -62,7 +62,12 @@ const nodes = {
   61:"Baño de Prefectos",
   62:"Aula HDM",
   63:"Red Flú Escolar",
-  64:"Aula de Runas Antiguas"
+  64:"Aula de Runas Antiguas",
+  65:"Cabaña del Guardabosques",
+  66:"Bosque Prohibido I",
+  67:"Bosque Prohibido III",
+  68:"Bosque Prohibido II"
+
 };
 
 const fluNetwork = {
@@ -80,7 +85,7 @@ const fluHub = 63;
 
 const BASE_URL = "./assets/";
 const roomImages = {};
-for(let i = 1; i <= 64; i++){
+for(let i = 1; i <= 68; i++){
   roomImages[i] = BASE_URL + i + ".png";
 }
 function getImage(id){
@@ -108,11 +113,12 @@ const links = [
   [25,26],[25,35],
   [26,27],[26,30],[26,31],
   [27,28],[27,29],
+  [28,66],
   [31,32],
   [32,33],[32,53],[32,62],
   [33,34],
   [35,36],[35,37],
-  [37,38],
+  [37,38],[37,65],
   [38,39],
   [39,40],
   [40,41],[40,42],
@@ -121,7 +127,8 @@ const links = [
   [45,46],[45,51],[45,64],
   [46,47],[46,49],[46,50],
   [47,48],
-  [53,54]
+  [53,54],
+  [66,67],[66,68],
 ];
 
 const pos = {
@@ -193,6 +200,11 @@ const pos = {
   37:[1890,1660],
   38:[2020,1780],
   39:[1830,1770],
+  65:[2020,1660],
+  66:[2450,1480],
+  67:[2650,1480],
+  68:[2450,1680],
+ 
 
   53:[1500,920],
   54:[1680,920],
