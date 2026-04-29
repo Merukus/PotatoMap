@@ -67,7 +67,6 @@ const nodes = {
   66:"Bosque Prohibido I",
   67:"Bosque Prohibido III",
   68:"Bosque Prohibido II"
-
 };
 
 const fluNetwork = {
@@ -83,11 +82,14 @@ const fluNetwork = {
 const fluNodes = [43, 7, 5, 13, 26, 46, 29];
 const fluHub = 63;
 
+const restrictedNodes = [66, 67, 68];
+
 const BASE_URL = "./assets/";
 const roomImages = {};
 for(let i = 1; i <= 68; i++){
   roomImages[i] = BASE_URL + i + ".png";
 }
+
 function getImage(id){
   return roomImages[id] || "https://via.placeholder.com/1400x900?text=Sin+imagen";
 }
@@ -128,12 +130,11 @@ const links = [
   [46,47],[46,49],[46,50],
   [47,48],
   [53,54],
-  [66,67],[66,68],
+  [66,67],[66,68]
 ];
 
 const pos = {
   1:[1300,900],
-
   55:[1120,760],
   56:[1450,760],
   2:[1700,900],
@@ -204,7 +205,6 @@ const pos = {
   66:[2450,1480],
   67:[2650,1480],
   68:[2450,1680],
- 
 
   53:[1500,920],
   54:[1680,920],
@@ -233,6 +233,7 @@ const connLabelRefs = [];
 const fluLineRefs = [];
 
 const graph = {};
+
 function buildGraph(){
   Object.keys(nodes).forEach(id => {
     graph[id] = [];
@@ -257,6 +258,7 @@ function buildGraph(){
     });
   });
 }
+
 buildGraph();
 
 links.forEach(([a,b])=>{
@@ -327,7 +329,6 @@ function highlightNodeConnections(id, persist=false){
 
   const connected = [];
 
-  // conexiones normales
   lineRefs.forEach(ref=>{
     if(ref.a === id || ref.b === id){
       ref.el.style.opacity = 1;
@@ -341,7 +342,6 @@ function highlightNodeConnections(id, persist=false){
     }
   });
 
-  // SOLO cuando la selección es fija por click mostramos la Red Flú
   if(persist){
     fluLineRefs.forEach(ref=>{
       if(ref.a === id || ref.b === id){
@@ -382,6 +382,10 @@ function highlightNodeConnections(id, persist=false){
 
     let extraInfo = "";
 
+    if(restrictedNodes.includes(id)){
+      extraInfo += `<p class="sub">⛔ No es de conocimiento público</p>`;
+    }
+
     if(id === fluHub){
       const fluList = fluNodes.map(fid =>
         `<li>${fid} - ${nodes[fid]} <br><small>Palabra: "${fluNetwork[fid]}"</small></li>`
@@ -420,11 +424,13 @@ function highlightNodeConnections(id, persist=false){
 function clearSelection(){
   selectedNodeId = null;
   clearConnectionLabels();
+
   if(currentRoute.length === 0){
     resetLines();
   } else {
     highlightRoute({ nodes: currentRoute, steps: currentRouteSteps });
   }
+
   infoContent.textContent = "No hay nodo seleccionado.";
   Object.values(nodeRefs).forEach(el => el.classList.remove("selected"));
 }
@@ -439,12 +445,21 @@ Object.keys(nodes).forEach(id=>{
   if (fluNodes.includes(numId)) {
     div.classList.add("flu");
   }
+
   if (numId === fluHub) {
     div.classList.add("flu-hub");
   }
 
+  if (restrictedNodes.includes(numId)) {
+    div.classList.add("restricted");
+  }
+
   div.innerText = id;
-  div.dataset.name = nodes[id];
+
+  div.dataset.name = restrictedNodes.includes(numId)
+    ? `${nodes[id]} ⛔ (No es de conocimiento público)`
+    : nodes[id];
+
   div.style.left = pos[numId][0] + "px";
   div.style.top = pos[numId][1] + "px";
 
@@ -534,6 +549,7 @@ function openRouteModal(routeData){
         textParts.push(`🔥 "${step.word}"`);
       }
     }
+
     textParts.push(`${step.to} - ${nodes[step.to]}`);
   });
 
@@ -625,9 +641,11 @@ function populateSelects(){
       label,
       normalized: label.trim().toLowerCase()
     });
+
     return `<option value="${label}"></option>`;
   }).join("");
 }
+
 populateSelects();
 
 function getRoomIdFromInput(value){
@@ -688,6 +706,7 @@ function findShortestPath(start, end){
 
     for(const edge of graph[last]){
       const neighbor = edge.to;
+
       if(visited.has(neighbor)) continue;
 
       const newPath = [...current.path, neighbor];
@@ -725,6 +744,7 @@ function isEdgeInRoute(a, b, routeSteps){
       return true;
     }
   }
+
   return false;
 }
 
@@ -749,6 +769,7 @@ function highlightRoute(routeData){
     if(step.type === "flu"){
       const fromEl = nodeRefs[step.from];
       const toEl = nodeRefs[step.to];
+
       if(fromEl) fromEl.classList.add("selected");
       if(toEl) toEl.classList.add("selected");
     }
@@ -779,6 +800,7 @@ function highlightRoute(routeData){
         routeText.push(`🔥 "${step.word}"`);
       }
     }
+
     routeText.push(`${step.to} - ${nodes[step.to]}`);
   });
 
